@@ -1,30 +1,50 @@
 package backend;
 
 import database.AbstractDatabase;
-import database.Database;
-import frontend.AbstractUserInterface;
+import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class Presenter {
-    private AbstractUserInterface userInterface;
     private AbstractDatabase database;
 
-    public Presenter(AbstractUserInterface userInterface) {
-        this.userInterface = userInterface;
-        database = new Database();
+    public Presenter(AbstractDatabase database) {
+        this.database = database;
     }
 
-    public ArrayList<Contact> getByPredicate() {
-        return null;
+    public boolean saveDatabase() {
+        try {
+            database.save();
+            return true;
+        }
+        catch(IOException | JSONException ex) {
+            return false;
+        }
+    }
+
+    public ArrayList<Contact> getByPredicate(Predicate<Contact> predicate) {
+        return database.getByPredicate(predicate);
     }
 
     public boolean addContact(Contact contact) {
+        if(database.getByPredicate(
+                contactInContacts -> contactInContacts.equals(contact))
+                .size() > 0) {
+            return false;
+        }
+        database.add(contact);
         return true;
     }
 
-    public void removeContact(Contact contact) {
-
+    public boolean removeContact(Contact contact) {
+        if(database.getByPredicate(
+                contactInContacts -> contactInContacts.equals(contact))
+                .size() != 1) {
+            return false;
+        }
+        database.remove(contact);
+        return true;
     }
 }

@@ -1,8 +1,6 @@
 package backend;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class Contact {
     public final String firstName;
@@ -14,20 +12,24 @@ public class Contact {
     private final ArrayList<String> phoneNumbers;
 
     public Contact(String firstName, String middleName, String lastName,
-                   String address, Date birthday, ArrayList<String> emails,
+                   Date birthday, String address, ArrayList<String> emails,
                    ArrayList<String> phoneNumbers) {
-        if(firstName == null || firstName.equals("")) {
-            throw new NullPointerException("Имя контакта является налом или" +
-                    " пустой строкой.");
-        }
-        this.firstName = firstName;
+        this.firstName = Objects.requireNonNull(firstName);
         this.middleName = Objects.requireNonNullElse(middleName, "");
-        this.lastName = Objects.requireNonNullElse(lastName, "");
-        this.address = Objects.requireNonNullElse(address, "");
-        this.birthday = birthday;
+        this.lastName = Objects.requireNonNull(lastName, "");
+        this.birthday = Objects.requireNonNull(birthday);
+        this.address = Objects.requireNonNull(address);
         this.emails = Objects.requireNonNullElse(emails, new ArrayList<>());
         this.phoneNumbers =
                 Objects.requireNonNullElse(phoneNumbers, new ArrayList<>());
+    }
+
+    public Collection<String> getEmails() {
+        return Collections.unmodifiableCollection(emails);
+    }
+
+    public Collection<String> getPhoneNumbers() {
+        return Collections.unmodifiableCollection(phoneNumbers);
     }
 
     @Override

@@ -2,15 +2,16 @@ package database;
 
 import backend.Contact;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public interface AbstractDatabase {
 
-    boolean open(String databaseFileName);
+    void save() throws IOException;
 
-    boolean save(String databaseFileName);
-
-    ArrayList<Contact> get();
+    ArrayList<Contact> getByPredicate(Predicate<Contact> predicate);
 
     void add(Contact contact);
 

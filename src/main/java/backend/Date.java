@@ -25,4 +25,9 @@ public class Date {
         return otherDate.day == day && otherDate.month == month &&
                 otherDate.year == year;
     }
+
+    @Override
+    public String toString() {
+        return day + "." + month + "." + year;
+    }
 }

@@ -42,8 +42,8 @@ public class Contact {
      * они имеют одинаковые имена, фамилии, отчества и даты рождения. Если
      * у одного из контактов не указана дата рождения, контакты считаются
      * различными.
-     * @param other
-     * @return
+     * @param other Сравниваемый объект.
+     * @return True, если объекты равны, false - иначе.
      */
     @Override
     public boolean equals(Object other) {
@@ -64,7 +64,7 @@ public class Contact {
         result.append(firstName).append(" ")
                 .append(middleName)
                 .append(lastName)
-                .append(" -> address: ")
+                .append(", address: ")
                 .append(address)
                 .append(", birthday: ")
                 .append(birthday)

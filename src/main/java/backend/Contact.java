@@ -22,6 +22,10 @@ public class Contact {
                    @JsonProperty("address") String address,
                    @JsonProperty("emails") ArrayList<String> emails,
                    @JsonProperty("phoneNumbers") ArrayList<String> phoneNumbers) {
+        if(firstName.trim().length() == 0) {
+            throw new IllegalArgumentException("Имя не может быть пустой" +
+                    " строкой");
+        }
         this.firstName = Objects.requireNonNull(firstName);
         this.middleName = Objects.requireNonNullElse(middleName, "");
         this.lastName = Objects.requireNonNull(lastName, "");

@@ -151,7 +151,7 @@ public class ConsoleUserInterface {
             int phoneNumbersNumber = Integer.parseInt(reader.readLine());
             ArrayList<String> phoneNumbers = new ArrayList<>();
             for(int i = 0; i < phoneNumbersNumber; ++i) {
-                System.out.println("Введите " + i + " номер контакта");
+                System.out.println("Введите " + (i + 1) + " номер контакта");
                 phoneNumbers.add(reader.readLine());
             }
 
@@ -159,7 +159,7 @@ public class ConsoleUserInterface {
             int emailsNumber = Integer.parseInt(reader.readLine());
             ArrayList<String> emails = new ArrayList<>();
             for(int i = 0; i < emailsNumber; ++i) {
-                System.out.println("Введите " + i + " email контакта");
+                System.out.println("Введите " + (i + 1) + " email контакта");
                 emails.add(reader.readLine());
             }
 

@@ -21,16 +21,17 @@ public class Contact {
                    @JsonProperty("birthday") Date birthday,
                    @JsonProperty("address") String address,
                    @JsonProperty("emails") ArrayList<String> emails,
-                   @JsonProperty("phoneNumbers") ArrayList<String> phoneNumbers) {
+                   @JsonProperty("phoneNumbers") ArrayList<String> phoneNumbers)
+                    throws IllegalArgumentException {
         if(firstName.trim().length() == 0) {
             throw new IllegalArgumentException("Имя не может быть пустой" +
                     " строкой");
         }
         this.firstName = Objects.requireNonNull(firstName);
         this.middleName = Objects.requireNonNullElse(middleName, "");
-        this.lastName = Objects.requireNonNull(lastName, "");
+        this.lastName = Objects.requireNonNullElse(lastName, "");
         this.birthday = Objects.requireNonNull(birthday);
-        this.address = Objects.requireNonNull(address);
+        this.address = Objects.requireNonNullElse(address, "");
         this.emails = Objects.requireNonNullElse(emails, new ArrayList<>());
         this.phoneNumbers =
                 Objects.requireNonNullElse(phoneNumbers, new ArrayList<>());

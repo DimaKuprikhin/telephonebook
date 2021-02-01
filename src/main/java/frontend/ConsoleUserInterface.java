@@ -128,7 +128,14 @@ public class ConsoleUserInterface {
             int month = Integer.parseInt(reader.readLine());
             System.out.println("Введите год рождения");
             int year = Integer.parseInt(reader.readLine());
-            Date birthday = new Date(day, month, year);
+            Date birthday;
+            try {
+                birthday = new Date(day, month, year);
+            }
+            catch(IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+                return;
+            }
 
             System.out.println("Введите количество номеров контакта");
             int phoneNumbersNumber = Integer.parseInt(reader.readLine());

@@ -32,7 +32,8 @@ public class Database implements AbstractDatabase {
         BufferedWriter writer =
                 new BufferedWriter(new FileWriter("database.txt"));
         for(int i = 0; i < contacts.size(); ++i) {
-            mapper.writeValue(writer, contacts.get(i));
+            writer.write(mapper.writeValueAsString(contacts.get(i)));
+            writer.newLine();
         }
         writer.close();
     }

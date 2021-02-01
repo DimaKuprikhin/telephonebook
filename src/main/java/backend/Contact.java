@@ -1,5 +1,8 @@
 package backend;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.*;
 
 public class Contact {
@@ -11,9 +14,14 @@ public class Contact {
     private final ArrayList<String> emails;
     private final ArrayList<String> phoneNumbers;
 
-    public Contact(String firstName, String middleName, String lastName,
-                   Date birthday, String address, ArrayList<String> emails,
-                   ArrayList<String> phoneNumbers) {
+    @JsonCreator
+    public Contact(@JsonProperty("firstName") String firstName,
+                   @JsonProperty("middleName") String middleName,
+                   @JsonProperty("lastName") String lastName,
+                   @JsonProperty("birthday") Date birthday,
+                   @JsonProperty("address") String address,
+                   @JsonProperty("emails") ArrayList<String> emails,
+                   @JsonProperty("phoneNumbers") ArrayList<String> phoneNumbers) {
         this.firstName = Objects.requireNonNull(firstName);
         this.middleName = Objects.requireNonNullElse(middleName, "");
         this.lastName = Objects.requireNonNull(lastName, "");

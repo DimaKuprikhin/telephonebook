@@ -1,11 +1,17 @@
 package backend;
 
-public class Date {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Date  {
     public final int day;
     public final int month;
     public final int year;
 
-    public Date(int day, int month, int year) {
+    @JsonCreator
+    public Date(@JsonProperty("day") int day,
+                @JsonProperty("month") int month,
+                @JsonProperty("year") int year) {
         this.day = day;
         this.month = month;
         this.year = year;

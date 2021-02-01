@@ -1,8 +1,7 @@
 package database;
 
 import backend.Contact;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,33 +10,31 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Database implements AbstractDatabase {
-    ArrayList<Contact> contacts;
+    ArrayList<Contact> contacts = new ArrayList<>();
 
-    public Database() throws IOException, JSONException {
+    public Database() throws IOException {
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader("database.txt"));
-        }
-        catch(FileNotFoundException ex) {
-            contacts = new ArrayList<>();
+        } catch (FileNotFoundException ex) {
             return;
         }
 
-        ArrayList<Contact> newContacts = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
         String serialized;
         while ((serialized = reader.readLine()) != null) {
-            newContacts.add((Contact) JSONObject.stringToValue(serialized));
+            contacts.add(mapper.readValue(serialized, Contact.class));
         }
         reader.close();
-
-        contacts = newContacts;
     }
 
     @Override
-    public void save() throws IOException, JSONException {
-        FileWriter writer = new FileWriter("database.txt");
-        for (int i = 0; i < contacts.size(); ++i) {
-            writer.write(JSONObject.valueToString(contacts.get(i)) + "\n");
+    public void save() throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        BufferedWriter writer =
+                new BufferedWriter(new FileWriter("database.txt"));
+        for(int i = 0; i < contacts.size(); ++i) {
+            mapper.writeValue(writer, contacts.get(i));
         }
         writer.close();
     }

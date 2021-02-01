@@ -3,22 +3,27 @@ package frontend;
 import backend.Contact;
 import backend.Date;
 import backend.Presenter;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public class ConsoleUserInterface {
 
+    @NotNull
     private final Presenter presenter;
 
-    public ConsoleUserInterface(Presenter presenter) {
+    public ConsoleUserInterface(@NotNull Presenter presenter) {
+        Objects.requireNonNull(presenter, "Ссылка на представителя при" +
+                " создании консольного интерфейса является налом.");
         this.presenter = presenter;
     }
 
-    public void findAll() {
+    private void findAll() {
         Collection<Contact> contacts =
                 presenter.getByPredicate(contact -> true);
         System.out.println("Список всех контактов:");
@@ -27,7 +32,9 @@ public class ConsoleUserInterface {
         }
     }
 
-    public void findByName(BufferedReader reader) {
+    private void findByName(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при поиске по фио" +
+                " является налом.");
         System.out.println("Введите строку для поиска по фио");
         try {
             String searchString = reader.readLine();
@@ -35,7 +42,7 @@ public class ConsoleUserInterface {
                     contact -> (contact.firstName + " " +
                             contact.middleName + " " +
                             contact.lastName).contains(searchString));
-            System.out.println("Результаты поиска по имени " + searchString);
+            System.out.println("Результаты поиска по фио " + searchString + ":");
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -45,7 +52,9 @@ public class ConsoleUserInterface {
         }
     }
 
-    private void findByBirthday(BufferedReader reader) {
+    private void findByBirthday(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при поиске по дате" +
+                " рождения является налом.");
         try {
             System.out.println("Введите число месяца рождения");
             int day = Integer.parseInt(reader.readLine());
@@ -56,7 +65,7 @@ public class ConsoleUserInterface {
             Date searchDate = new Date(day, month, year);
             Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.birthday.equals(searchDate));
-            System.out.println("Результаты поиска по дате рожедния");
+            System.out.println("Результаты поиска по дате рожедния:");
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -66,14 +75,17 @@ public class ConsoleUserInterface {
         }
     }
 
-    public void findByNumber(BufferedReader reader) {
+    private void findByNumber(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при поиске по телефону" +
+                " является налом.");
         try {
             System.out.println("Введите номер");
             String searchedNumber = reader.readLine();
             Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.getPhoneNumbers().stream()
                             .anyMatch(number -> number.contains(searchedNumber)));
-            System.out.println("Результаты поиска по номеру " + searchedNumber);
+            System.out.println("Результаты поиска по номеру " +
+                    searchedNumber + ":");
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -83,14 +95,17 @@ public class ConsoleUserInterface {
         }
     }
 
-    public void findByEmail(BufferedReader reader) {
+    private void findByEmail(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при поиске по email" +
+                " является налом.");
         try {
             System.out.println("Введите email");
             String searchedEmail = reader.readLine();
             Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.getEmails().stream()
                             .anyMatch(email -> email.contains(searchedEmail)));
-            System.out.println("Результаты поиска по email " + searchedEmail);
+            System.out.println("Результаты поиска по email " +
+                    searchedEmail + ":");
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -100,13 +115,16 @@ public class ConsoleUserInterface {
         }
     }
 
-    public void findByAddress(BufferedReader reader) {
+    private void findByAddress(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при поиске по адресу" +
+                " является налом.");
         try {
             System.out.println("Введите адрес");
             String searchedAddress = reader.readLine();
             Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.address.contains(searchedAddress));
-            System.out.println("Результаты поиска по адресу " + searchedAddress);
+            System.out.println("Результаты поиска по адресу " +
+                    searchedAddress + ":");
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -116,7 +134,9 @@ public class ConsoleUserInterface {
         }
     }
 
-    private void addContact(BufferedReader reader) {
+    private void addContact(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при добаслении контакта" +
+                " является налом.");
         try {
             System.out.println("Введите имя");
             String firstName = reader.readLine();
@@ -185,7 +205,9 @@ public class ConsoleUserInterface {
         }
     }
 
-    private void removeContact(BufferedReader reader) {
+    private void removeContact(@NotNull BufferedReader reader) {
+        Objects.requireNonNull(reader, "Поток ввода при удалении контакта" +
+                " является налом.");
         try {
             System.out.println("Введите имя");
             String firstName = reader.readLine();
@@ -224,7 +246,7 @@ public class ConsoleUserInterface {
         }
     }
 
-    public boolean close() {
+    private boolean close() {
         try {
             presenter.saveDatabase();
             return true;
@@ -241,6 +263,7 @@ public class ConsoleUserInterface {
                 new BufferedReader(new InputStreamReader(System.in));
 
         while(true) {
+            System.out.println();
             System.out.println("1 -> показать все контакты");
             System.out.println("2 -> поиск по фио");
             System.out.println("3 -> поиск по дате рождения");

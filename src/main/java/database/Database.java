@@ -2,12 +2,15 @@ package database;
 
 import backend.Contact;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.*;
 import java.util.function.Predicate;
 
 public class Database implements AbstractDatabase {
+
+    @NotNull
     ArrayList<Contact> contacts = new ArrayList<>();
 
     public Database() throws IOException {
@@ -39,13 +42,17 @@ public class Database implements AbstractDatabase {
     }
 
     @Override
-    public Collection<Contact> getByPredicate(Predicate<Contact> predicate) {
+    @NotNull
+    public Collection<Contact> getByPredicate(
+            @NotNull Predicate<Contact> predicate) {
+        Objects.requireNonNull(predicate, "Предикат поиска является нулевой" +
+                " ссылкой.");
         return Collections.unmodifiableCollection(new ArrayList<>(Arrays.asList(
                 contacts.stream().filter(predicate).toArray(Contact[]::new))));
     }
 
     @Override
-    public void add(Contact contact) {
+    public void add(@NotNull Contact contact) {
         contacts.add(Objects.requireNonNull(contact, "Нал при добавлении " +
                 "контакта в базу."));
     }

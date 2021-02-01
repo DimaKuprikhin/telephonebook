@@ -2,23 +2,32 @@ package backend;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class Contact {
+
+    @NotNull
     public final String firstName;
+    @NotNull
     public final String middleName;
+    @NotNull
     public final String lastName;
+    @NotNull
     public final Date birthday;
+    @NotNull
     public final String address;
+    @NotNull
     private final ArrayList<String> emails;
+    @NotNull
     private final ArrayList<String> phoneNumbers;
 
     @JsonCreator
-    public Contact(@JsonProperty("firstName") String firstName,
+    public Contact(@JsonProperty("firstName") @NotNull String firstName,
                    @JsonProperty("middleName") String middleName,
                    @JsonProperty("lastName") String lastName,
-                   @JsonProperty("birthday") Date birthday,
+                   @JsonProperty("birthday") @NotNull Date birthday,
                    @JsonProperty("address") String address,
                    @JsonProperty("emails") ArrayList<String> emails,
                    @JsonProperty("phoneNumbers") ArrayList<String> phoneNumbers)
@@ -27,20 +36,24 @@ public class Contact {
             throw new IllegalArgumentException("Имя не может быть пустой" +
                     " строкой");
         }
-        this.firstName = Objects.requireNonNull(firstName);
+        this.firstName = Objects.requireNonNull(firstName, "Ссылка на строку" +
+                " имени при создании контакта является налом.");
         this.middleName = Objects.requireNonNullElse(middleName, "");
         this.lastName = Objects.requireNonNullElse(lastName, "");
-        this.birthday = Objects.requireNonNull(birthday);
+        this.birthday = Objects.requireNonNull(birthday, "Ссылка на дату" +
+                " рождения при создании контакта является налом.");
         this.address = Objects.requireNonNullElse(address, "");
         this.emails = Objects.requireNonNullElse(emails, new ArrayList<>());
         this.phoneNumbers =
                 Objects.requireNonNullElse(phoneNumbers, new ArrayList<>());
     }
 
+    @NotNull
     public Collection<String> getEmails() {
         return Collections.unmodifiableCollection(emails);
     }
 
+    @NotNull
     public Collection<String> getPhoneNumbers() {
         return Collections.unmodifiableCollection(phoneNumbers);
     }
@@ -67,8 +80,7 @@ public class Contact {
         return otherContact.firstName.equals(firstName) &&
                 otherContact.middleName.equals(middleName) &&
                 otherContact.lastName.equals(lastName) &&
-                (otherContact.birthday != null && birthday != null &&
-                        otherContact.birthday.equals(birthday));
+                otherContact.birthday.equals(birthday);
     }
 
     @Override

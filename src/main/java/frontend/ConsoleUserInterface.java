@@ -108,6 +108,10 @@ public class ConsoleUserInterface {
         try {
             System.out.println("Введите имя");
             String firstName = reader.readLine();
+            if(firstName.trim().length() == 0) {
+                System.out.println("Имя не иожет быть пустой строкой");
+                return;
+            }
 
             System.out.println("Введите отчество или пустую строку");
             String middleName = reader.readLine();
@@ -143,8 +147,9 @@ public class ConsoleUserInterface {
             }
 
             boolean addResult = presenter.addContact(
-                    new Contact(firstName, middleName,
-                    lastName, birthday, address, emails, phoneNumbers));
+                        new Contact(firstName, middleName,
+                                lastName, birthday, address,
+                                emails, phoneNumbers));
             if(addResult) {
                 System.out.println("Контакт успешно добавлен");
             }

@@ -18,6 +18,15 @@ public class ConsoleUserInterface {
         this.presenter = presenter;
     }
 
+    public void findAll() {
+        Collection<Contact> contacts =
+                presenter.getByPredicate(contact -> true);
+        System.out.println("Список всех контактов:");
+        for(Contact contact : contacts) {
+            System.out.println(contact);
+        }
+    }
+
     public void findByName(BufferedReader reader) {
         System.out.println("Введите строку для поиска по фио");
         try {
@@ -227,13 +236,14 @@ public class ConsoleUserInterface {
                 new BufferedReader(new InputStreamReader(System.in));
 
         while(true) {
-            System.out.println("1 -> поиск по фио");
-            System.out.println("2 -> поиск по дате рождения");
-            System.out.println("3 -> поиск по номеру");
-            System.out.println("4 -> поиск по email");
-            System.out.println("5 -> поиск по адресу");
-            System.out.println("6 -> добавить контакт");
-            System.out.println("7 -> удалить контакт");
+            System.out.println("1 -> показать все контакты");
+            System.out.println("2 -> поиск по фио");
+            System.out.println("3 -> поиск по дате рождения");
+            System.out.println("4 -> поиск по номеру");
+            System.out.println("5 -> поиск по email");
+            System.out.println("6 -> поиск по адресу");
+            System.out.println("7 -> добавить контакт");
+            System.out.println("8 -> удалить контакт");
             System.out.println("0 -> выход из программы");
 
             int command;
@@ -255,24 +265,27 @@ public class ConsoleUserInterface {
                 }
             }
             if(command == 1) {
-                findByName(reader);
+                findAll();
             }
             if(command == 2) {
-                findByBirthday(reader);
+                findByName(reader);
             }
             if(command == 3) {
-                findByNumber(reader);
+                findByBirthday(reader);
             }
             if(command == 4) {
-                findByEmail(reader);
+                findByNumber(reader);
             }
             if(command == 5) {
-                findByAddress(reader);
+                findByEmail(reader);
             }
             if(command == 6) {
-                addContact(reader);
+                findByAddress(reader);
             }
             if(command == 7) {
+                addContact(reader);
+            }
+            if(command == 8) {
                 removeContact(reader);
             }
         }

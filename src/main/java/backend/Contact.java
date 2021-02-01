@@ -3,6 +3,7 @@ package backend;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -25,12 +26,13 @@ public class Contact {
 
     @JsonCreator
     public Contact(@JsonProperty("firstName") @NotNull String firstName,
-                   @JsonProperty("middleName") String middleName,
-                   @JsonProperty("lastName") String lastName,
+                   @JsonProperty("middleName") @Nullable String middleName,
+                   @JsonProperty("lastName") @Nullable String lastName,
                    @JsonProperty("birthday") @NotNull Date birthday,
-                   @JsonProperty("address") String address,
-                   @JsonProperty("emails") ArrayList<String> emails,
-                   @JsonProperty("phoneNumbers") ArrayList<String> phoneNumbers)
+                   @JsonProperty("address") @Nullable String address,
+                   @JsonProperty("emails") @Nullable ArrayList<String> emails,
+                   @JsonProperty("phoneNumbers") @Nullable
+                               ArrayList<String> phoneNumbers)
                     throws IllegalArgumentException {
         if(firstName.trim().length() == 0) {
             throw new IllegalArgumentException("Имя не может быть пустой" +

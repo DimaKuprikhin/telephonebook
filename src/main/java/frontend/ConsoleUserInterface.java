@@ -69,10 +69,11 @@ public class ConsoleUserInterface {
     public void findByNumber(BufferedReader reader) {
         try {
             System.out.println("Введите номер");
-            String searchNumber = reader.readLine();
+            String searchedNumber = reader.readLine();
             Collection<Contact> foundContacts = presenter.getByPredicate(
-                    contact -> contact.getPhoneNumbers().contains(searchNumber));
-            System.out.println("Результаты поиска по номеру " + searchNumber);
+                    contact -> contact.getPhoneNumbers().stream()
+                            .anyMatch(number -> number.contains(searchedNumber)));
+            System.out.println("Результаты поиска по номеру " + searchedNumber);
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -85,10 +86,11 @@ public class ConsoleUserInterface {
     public void findByEmail(BufferedReader reader) {
         try {
             System.out.println("Введите email");
-            String searchEmail = reader.readLine();
+            String searchedEmail = reader.readLine();
             Collection<Contact> foundContacts = presenter.getByPredicate(
-                    contact -> contact.getEmails().contains(searchEmail));
-            System.out.println("Результаты поиска по email " + searchEmail);
+                    contact -> contact.getEmails().stream()
+                            .anyMatch(email -> email.contains(searchedEmail)));
+            System.out.println("Результаты поиска по email " + searchedEmail);
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }
@@ -101,10 +103,10 @@ public class ConsoleUserInterface {
     public void findByAddress(BufferedReader reader) {
         try {
             System.out.println("Введите адрес");
-            String searchAddress = reader.readLine();
+            String searchedAddress = reader.readLine();
             Collection<Contact> foundContacts = presenter.getByPredicate(
-                    contact -> contact.address.equals(searchAddress));
-            System.out.println("Результаты поиска по адресу " + searchAddress);
+                    contact -> contact.address.contains(searchedAddress));
+            System.out.println("Результаты поиска по адресу " + searchedAddress);
             for(Contact contact : foundContacts) {
                 System.out.println(contact);
             }

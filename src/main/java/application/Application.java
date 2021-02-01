@@ -13,7 +13,8 @@ public class Application {
             database = new Database();
         }
         catch(IOException ex) {
-            System.out.println("Ошибка при загрузке базы данных");
+            System.out.println("Ошибка при загрузке базы данных" +
+                    ex.getMessage());
             return;
         }
         Presenter presenter = new Presenter(database);

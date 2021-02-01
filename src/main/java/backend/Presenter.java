@@ -13,14 +13,8 @@ public class Presenter {
         this.database = database;
     }
 
-    public boolean saveDatabase() {
-        try {
-            database.save();
-            return true;
-        }
-        catch(IOException ex) {
-            return false;
-        }
+    public void saveDatabase() throws IOException {
+        database.save();
     }
 
     public Collection<Contact> getByPredicate(Predicate<Contact> predicate) {

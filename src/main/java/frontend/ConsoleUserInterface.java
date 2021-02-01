@@ -223,12 +223,15 @@ public class ConsoleUserInterface {
     }
 
     public boolean close() {
-        if(!presenter.saveDatabase()) {
+        try {
+            presenter.saveDatabase();
+            return true;
+        }
+        catch(IOException ex) {
             System.out.println("Не удалось сохранить базу данных в" +
-                    " файл");
+                    " файл." + ex.getMessage());
             return false;
         }
-        return true;
     }
 
     public void run() {

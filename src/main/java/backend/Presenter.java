@@ -3,7 +3,7 @@ package backend;
 import database.AbstractDatabase;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Predicate;
 
 public class Presenter {
@@ -23,7 +23,7 @@ public class Presenter {
         }
     }
 
-    public ArrayList<Contact> getByPredicate(Predicate<Contact> predicate) {
+    public Collection<Contact> getByPredicate(Predicate<Contact> predicate) {
         return database.getByPredicate(predicate);
     }
 

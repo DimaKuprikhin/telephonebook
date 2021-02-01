@@ -4,9 +4,7 @@ import backend.Contact;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class Database implements AbstractDatabase {
@@ -40,9 +38,9 @@ public class Database implements AbstractDatabase {
     }
 
     @Override
-    public ArrayList<Contact> getByPredicate(Predicate<Contact> predicate) {
-        return new ArrayList<>(Arrays.asList(
-                contacts.stream().filter(predicate).toArray(Contact[]::new)));
+    public Collection<Contact> getByPredicate(Predicate<Contact> predicate) {
+        return Collections.unmodifiableCollection(new ArrayList<>(Arrays.asList(
+                contacts.stream().filter(predicate).toArray(Contact[]::new))));
     }
 
     @Override

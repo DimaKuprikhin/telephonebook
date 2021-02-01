@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class ConsoleUserInterface {
 
@@ -21,13 +22,13 @@ public class ConsoleUserInterface {
         System.out.println("Введите строку для поиска по фио");
         try {
             String searchString = reader.readLine();
-            ArrayList<Contact> foundContacts = presenter.getByPredicate(
+            Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> (contact.firstName + " " +
                             contact.middleName + " " +
                             contact.lastName).contains(searchString));
             System.out.println("Результаты поиска по имени " + searchString);
-            for(int i = 0; i < foundContacts.size(); ++i) {
-                System.out.println(foundContacts.get(i));
+            for(Contact contact : foundContacts) {
+                System.out.println(contact);
             }
         }
         catch (IOException ex) {
@@ -44,11 +45,11 @@ public class ConsoleUserInterface {
             System.out.println("Введите год рождения");
             int year = Integer.parseInt(reader.readLine());
             Date searchDate = new Date(day, month, year);
-            ArrayList<Contact> foundContacts = presenter.getByPredicate(
+            Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.birthday.equals(searchDate));
             System.out.println("Результаты поиска по дате рожедния");
-            for(int i = 0; i < foundContacts.size(); ++i) {
-                System.out.println(foundContacts.get(i));
+            for(Contact contact : foundContacts) {
+                System.out.println(contact);
             }
         }
         catch (IOException ex) {
@@ -60,11 +61,11 @@ public class ConsoleUserInterface {
         try {
             System.out.println("Введите номер");
             String searchNumber = reader.readLine();
-            ArrayList<Contact> foundContacts = presenter.getByPredicate(
+            Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.getPhoneNumbers().contains(searchNumber));
             System.out.println("Результаты поиска по номеру " + searchNumber);
-            for(int i = 0; i < foundContacts.size(); ++i) {
-                System.out.println(foundContacts.get(i));
+            for(Contact contact : foundContacts) {
+                System.out.println(contact);
             }
         }
         catch (IOException ex) {
@@ -76,11 +77,11 @@ public class ConsoleUserInterface {
         try {
             System.out.println("Введите email");
             String searchEmail = reader.readLine();
-            ArrayList<Contact> foundContacts = presenter.getByPredicate(
+            Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.getEmails().contains(searchEmail));
             System.out.println("Результаты поиска по email " + searchEmail);
-            for(int i = 0; i < foundContacts.size(); ++i) {
-                System.out.println(foundContacts.get(i));
+            for(Contact contact : foundContacts) {
+                System.out.println(contact);
             }
         }
         catch (IOException ex) {
@@ -92,11 +93,11 @@ public class ConsoleUserInterface {
         try {
             System.out.println("Введите адрес");
             String searchAddress = reader.readLine();
-            ArrayList<Contact> foundContacts = presenter.getByPredicate(
+            Collection<Contact> foundContacts = presenter.getByPredicate(
                     contact -> contact.address.equals(searchAddress));
             System.out.println("Результаты поиска по адресу " + searchAddress);
-            for(int i = 0; i < foundContacts.size(); ++i) {
-                System.out.println(foundContacts.get(i));
+            for(Contact contact : foundContacts) {
+                System.out.println(contact);
             }
         }
         catch (IOException ex) {

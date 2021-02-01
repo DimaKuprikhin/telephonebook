@@ -1,14 +1,13 @@
 package backend;
 
 import database.AbstractDatabase;
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class Presenter {
-    private AbstractDatabase database;
+    private final AbstractDatabase database;
 
     public Presenter(AbstractDatabase database) {
         this.database = database;
@@ -19,7 +18,7 @@ public class Presenter {
             database.save();
             return true;
         }
-        catch(IOException | JSONException ex) {
+        catch(IOException ex) {
             return false;
         }
     }

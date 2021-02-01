@@ -3,7 +3,6 @@ package application;
 import backend.Presenter;
 import database.Database;
 import frontend.ConsoleUserInterface;
-import org.json.JSONException;
 
 import java.io.IOException;
 
@@ -13,7 +12,7 @@ public class Application {
         try {
             database = new Database();
         }
-        catch(IOException | JSONException ex) {
+        catch(IOException ex) {
             System.out.println("Ошибка при загрузке базы данных");
             return;
         }

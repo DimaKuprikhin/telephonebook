@@ -3,7 +3,6 @@ package frontend;
 import backend.Contact;
 import backend.Date;
 import backend.Presenter;
-import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 public class ConsoleUserInterface {
 
     private final Presenter presenter;
-    private final String DATABASE_FILENAME = "database.txt";
 
     public ConsoleUserInterface(Presenter presenter) {
         this.presenter = presenter;
@@ -225,7 +223,7 @@ public class ConsoleUserInterface {
             System.out.println("7 -> удалить контакт");
             System.out.println("0 -> выход из программы");
 
-            int command = 0;
+            int command;
             try {
                 command = Integer.parseInt(reader.readLine());
             }

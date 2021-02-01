@@ -75,7 +75,7 @@ public class Contact {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append(firstName).append(" ")
-                .append(middleName)
+                .append(middleName).append(" ")
                 .append(lastName)
                 .append(", address: ")
                 .append(address)

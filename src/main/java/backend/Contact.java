@@ -9,18 +9,46 @@ import java.util.*;
 
 public class Contact {
 
+    /**
+     * Имя контакта. Имя не должно быть пустой строкиой
+     * или состоять из пробельных символов.
+     */
     @NotNull
     public final String firstName;
+
+    /**
+     * Отчество или среднее имя. Равно пустой строке, если отсутствует.
+     */
     @NotNull
     public final String middleName;
+
+    /**
+     * Фамилия контакта. Равно пустой строке, если отсутствует.
+     */
     @NotNull
     public final String lastName;
+
+    /**
+     * Дата рождения контакта. Должно быть задано для всех контактов.
+     */
     @NotNull
     public final Date birthday;
+
+    /**
+     * Адрес контакта. Равно пустой строке, если отсутствует.
+     */
     @NotNull
     public final String address;
+
+    /**
+     * Массив email'ов контакта.
+     */
     @NotNull
     private final ArrayList<String> emails;
+
+    /**
+     * Массив телефонных номеров контакта.
+     */
     @NotNull
     private final ArrayList<String> phoneNumbers;
 
@@ -50,16 +78,28 @@ public class Contact {
                 Objects.requireNonNullElse(phoneNumbers, new ArrayList<>());
     }
 
+    /**
+     * Геттер для email'ов.
+     * @return unmodifiable view коллекции email'ов.
+     */
     @NotNull
     public Collection<String> getEmails() {
         return Collections.unmodifiableCollection(emails);
     }
 
+    /**
+     * Геттер для номеров телефонов.
+     * @return unmodifiable view коллекции телефонных номеров.
+     */
     @NotNull
     public Collection<String> getPhoneNumbers() {
         return Collections.unmodifiableCollection(phoneNumbers);
     }
 
+    /**
+     * Хешкод контакта, вычисляющийся по фио.
+     * @return Хешкод конкатенации строк имени, среднего имени и фамилии.
+     */
     @Override
     public int hashCode() {
         return (firstName + middleName + lastName).hashCode();
@@ -67,9 +107,7 @@ public class Contact {
 
     /**
      * Сравнивает на равентство два экземпляра контакта. Контакты равны, если
-     * они имеют одинаковые имена, фамилии, отчества и даты рождения. Если
-     * у одного из контактов не указана дата рождения, контакты считаются
-     * различными.
+     * они имеют одинаковые имена, фамилии, средние имена и даты рождения.
      * @param other Сравниваемый объект.
      * @return True, если объекты равны, false - иначе.
      */
@@ -85,6 +123,11 @@ public class Contact {
                 otherContact.birthday.equals(birthday);
     }
 
+    /**
+     * Строковое представление контакта, содержащее всю информацию, необходимую
+     * для вывода пользователю.
+     * @return Строку со всей информацией о контакте.
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

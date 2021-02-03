@@ -94,10 +94,12 @@ public class Database implements AbstractDatabase {
      * Удаляет контакт из базы. При отсутствии удаляемого контакта в базе,
      * состояние базы не меняется.
      * @param contact Удаляемый контакт.
+     * @return True, если элемент был удален, false, если удаляемого элемента
+     * не было в базе.
      */
     @Override
-    public void remove(@NotNull Contact contact) {
-        contacts.remove(Objects.requireNonNull(contact, "Нал при удалении " +
-                "контакта из базы."));
+    public boolean remove(@NotNull Contact contact) {
+        return contacts.remove(Objects.requireNonNull(contact,
+                "Нал при удалении контакта из базы."));
     }
 }

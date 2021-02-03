@@ -36,7 +36,9 @@ public interface AbstractDatabase {
      * Удаляет контакт из базы. При отсутствии удаляемого контакта в базе,
      * состояние базы не меняется.
      * @param contact Удаляемый контакт.
+     * @return True, если элемент был удален, false, если удаляемого элемента
+     * не было в базе.
      */
-    void remove(@NotNull Contact contact);
+    boolean remove(@NotNull Contact contact);
 
 }

@@ -3,11 +3,24 @@ package backend;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDate;
-
+/**
+ * Класс для хранения даты, состоящей из числа, месяца и года.
+ */
 public class Date  {
+    /**
+     * Число месяца. Может находится в отрезке [1, 31]. Не учитывает разное
+     * количество дней в месяцах.
+     */
     public final int day;
+
+    /**
+     * Номер месяца. Может находится в отрезке [1, 12].
+     */
     public final int month;
+
+    /**
+     * Год. Может равняться любому значению int.
+     */
     public final int year;
 
     @JsonCreator
@@ -42,8 +55,13 @@ public class Date  {
                 otherDate.year == year;
     }
 
+    /**
+     * Возвращает строковое представление даты.
+     * @return Строковое представление даты в формате DD.MM.Y.
+     */
     @Override
     public String toString() {
-        return day + "." + month + "." + year;
+        return (day < 10 ? "0" : "") + day + "." + (month < 10 ? "0" : "") +
+                month + "." + year;
     }
 }

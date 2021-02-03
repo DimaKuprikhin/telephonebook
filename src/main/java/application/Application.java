@@ -6,6 +6,9 @@ import frontend.ConsoleUserInterface;
 
 import java.io.IOException;
 
+/**
+ * Класс, запускающий программу.
+ */
 public class Application {
     public static void main(String[] argv) {
         Database database;
@@ -17,7 +20,9 @@ public class Application {
                     ex.getMessage());
             return;
         }
+
         Presenter presenter = new Presenter(database);
+
         ConsoleUserInterface userInterface =
                 new ConsoleUserInterface(presenter);
         userInterface.run();

@@ -14,9 +14,13 @@ public class Date  {
     public Date(@JsonProperty("day") int day,
                 @JsonProperty("month") int month,
                 @JsonProperty("year") int year) {
-        if((day < 1 || day > 31) || (month < 1 || month > 12) ||
-                (year < 1900 || year > LocalDate.now().getYear())) {
-            throw new IllegalArgumentException("Неккоректное значение даты");
+        if(day < 1 || day > 31) {
+            throw new IllegalArgumentException("Неккоректное значение дня " +
+                    "месяца. Должно быть в отрезке [1, 31].");
+        }
+        if(month < 1 || month > 12) {
+            throw new IllegalArgumentException("Неккоректное значение номера " +
+                    "месяца. Должно быть в отрезке [1, 12].");
         }
         this.day = day;
         this.month = month;

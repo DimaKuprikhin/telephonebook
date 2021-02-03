@@ -12,8 +12,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Класс, реализующий консольный пользовательский интерфейс.
+ */
 public class ConsoleUserInterface {
 
+    /**
+     * Экземпляр представителя, через который происходит обращение к базе.
+     */
     @NotNull
     private final Presenter presenter;
 
@@ -23,6 +29,9 @@ public class ConsoleUserInterface {
         this.presenter = presenter;
     }
 
+    /**
+     * Выводит пользователю все контакты.
+     */
     private void findAll() {
         Collection<Contact> contacts =
                 presenter.getByPredicate(contact -> true);
@@ -32,6 +41,12 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Производит поиск контактов по фио и выводит пользователю результат.
+     * Выводятся все контакты, чьё фио содержит введеную пользователем строку
+     * как подстроку.
+     * @param reader Поток пользовательского ввода.
+     */
     private void findByName(@NotNull BufferedReader reader) {
         Objects.requireNonNull(reader, "Поток ввода при поиске по фио" +
                 " является налом.");
@@ -52,6 +67,12 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Производит поиск контактов по дате рождения и выводит пользователю
+     * результат. Выводит всех пользователей, чей день роджения совпадает с
+     * введенным.
+     * @param reader Поток пользовательского ввода.
+     */
     private void findByBirthday(@NotNull BufferedReader reader) {
         Objects.requireNonNull(reader, "Поток ввода при поиске по дате" +
                 " рождения является налом.");
@@ -75,6 +96,12 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Производит поиск контактов по номеру и выводит пользователю результат.
+     * Выводит все контакты, у которых в списке телефонных номеров
+     * есть введенный пользователем.
+     * @param reader Поток пользовательского ввода.
+     */
     private void findByNumber(@NotNull BufferedReader reader) {
         Objects.requireNonNull(reader, "Поток ввода при поиске по телефону" +
                 " является налом.");
@@ -95,6 +122,12 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Производит поиск контактов по email'у и выводит пользователю результат.
+     * Выводит все контакты, у которых в списке email'ов есть введенный
+     * пользователем.
+     * @param reader Поток пользовательского ввода.
+     */
     private void findByEmail(@NotNull BufferedReader reader) {
         Objects.requireNonNull(reader, "Поток ввода при поиске по email" +
                 " является налом.");
@@ -115,6 +148,12 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Производит поиск контактов по адресу и выводит пользователю результат.
+     * Выводит все контакты, чей адрес содержит введенный пользователем адрес
+     * как подстроку.
+     * @param reader Поток пользовательского ввода.
+     */
     private void findByAddress(@NotNull BufferedReader reader) {
         Objects.requireNonNull(reader, "Поток ввода при поиске по адресу" +
                 " является налом.");
@@ -134,8 +173,13 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Добавляет контакт, информация о котором вводится пользователем.
+     * Выводит пользователю результат добавления введенного контакта.
+     * @param reader Поток пользовательского ввода.
+     */
     private void addContact(@NotNull BufferedReader reader) {
-        Objects.requireNonNull(reader, "Поток ввода при добаслении контакта" +
+        Objects.requireNonNull(reader, "Поток ввода при добавлении контакта" +
                 " является налом.");
         try {
             System.out.println("Введите имя");
@@ -205,6 +249,11 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Удаляет из базу контакт по введенному пользователем фио и дате рождения.
+     * Выводит пользователю результат удаления.
+     * @param reader Поток пользовательского ввода.
+     */
     private void removeContact(@NotNull BufferedReader reader) {
         Objects.requireNonNull(reader, "Поток ввода при удалении контакта" +
                 " является налом.");
@@ -224,7 +273,14 @@ public class ConsoleUserInterface {
             int month = Integer.parseInt(reader.readLine());
             System.out.println("Введите год рождения");
             int year = Integer.parseInt(reader.readLine());
-            Date birthday = new Date(day, month, year);
+            Date birthday;
+            try {
+                birthday = new Date(day, month, year);
+            }
+            catch(IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+                return;
+            }
 
             Contact removedContact = new Contact(firstName, middleName,
                     lastName, birthday, "",
@@ -246,7 +302,11 @@ public class ConsoleUserInterface {
         }
     }
 
-    private boolean close() {
+    /**
+     * Сохраняет базу данных.
+     * @return True, если база успешно сохранены, иначе - false.
+     */
+    private boolean save() {
         try {
             presenter.saveDatabase();
             return true;
@@ -258,6 +318,9 @@ public class ConsoleUserInterface {
         }
     }
 
+    /**
+     * Запускает диалог с пользователем.
+     */
     public void run() {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
@@ -288,7 +351,7 @@ public class ConsoleUserInterface {
             }
 
             if(command == 0) {
-                if(close()) {
+                if(save()) {
                     break;
                 }
             }

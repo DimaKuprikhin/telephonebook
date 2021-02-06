@@ -2,6 +2,9 @@ package database;
 
 import backend.Contact;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -26,6 +29,17 @@ public class Database implements AbstractDatabase {
     private final String DATABASE_FILE_NAME = "database.txt";
 
     /**
+     * Маппер JSON сериализации.
+     */
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     * Логгер базы.
+     */
+    private static final Logger logger =
+            LogManager.getLogger(Database.class.getName());
+
+    /**
      * Конструктор базы. Десериализует контакты из файла database.txt, если
      * возможно открыть файл.
      * @throws IOException При ошибке чтения из файла или ошибке десериализации.
@@ -33,16 +47,35 @@ public class Database implements AbstractDatabase {
     public Database() throws IOException {
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(DATABASE_FILE_NAME));
+            File file = new File(DATABASE_FILE_NAME);
+            if(file.exists()) {
+                reader = new BufferedReader(
+                        new FileReader(DATABASE_FILE_NAME));
+                logger.info("Удалось открыть database.txt.");
+            }
+            else {
+                logger.info("database.txt не существует при запуске программы.");
+                return;
+            }
         } catch (FileNotFoundException ex) {
+            // Обрабатываем FileNotFoundEx в случаях, когда файл существует,
+            // но файл не удалось открыть при создании FileReader.
+            logger.log(Level.ERROR,
+                    "Не удалось открыть database.txt для чтения.", ex);
+            return;
+        }
+        catch(SecurityException ex) {
+            logger.log(Level.ERROR,
+                    "Отказано в доступе чтения database.txt.", ex);
             return;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         String serialized;
         // Построчно считываем из файла и десериализуем каждую строку.
         while ((serialized = reader.readLine()) != null) {
             contacts.add(mapper.readValue(serialized, Contact.class));
+            logger.info("Десериализован контакт " +
+                    contacts.get(contacts.size() - 1));
         }
         reader.close();
     }
@@ -53,7 +86,6 @@ public class Database implements AbstractDatabase {
      */
     @Override
     public void save() throws IOException{
-        ObjectMapper mapper = new ObjectMapper();
         BufferedWriter writer =
                 new BufferedWriter(new FileWriter(DATABASE_FILE_NAME));
         // Записываем сериализованные элементы построчно в файл.
@@ -62,6 +94,7 @@ public class Database implements AbstractDatabase {
             writer.newLine();
         }
         writer.close();
+        logger.info("База успешно сохранена.");
     }
 
     /**
@@ -88,6 +121,7 @@ public class Database implements AbstractDatabase {
     public void add(@NotNull Contact contact) {
         contacts.add(Objects.requireNonNull(contact, "Нал при добавлении " +
                 "контакта в базу."));
+        logger.info("Добавлен контакт " + contact.toString());
     }
 
     /**
@@ -99,7 +133,11 @@ public class Database implements AbstractDatabase {
      */
     @Override
     public boolean remove(@NotNull Contact contact) {
-        return contacts.remove(Objects.requireNonNull(contact,
-                "Нал при удалении контакта из базы."));
+        if(contacts.remove(Objects.requireNonNull(contact,
+                "Нал при удалении контакта из базы."))) {
+            logger.info("Удален контакт " + contact.toString());
+            return true;
+        }
+        return false;
     }
 }

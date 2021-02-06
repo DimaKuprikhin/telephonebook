@@ -1,6 +1,8 @@
 package backend;
 
 import database.AbstractDatabase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -20,6 +22,12 @@ public class Presenter {
     @NotNull
     private final AbstractDatabase database;
 
+    /**
+     * Логгер представителя.
+     */
+    private static final Logger logger =
+            LogManager.getLogger(Presenter.class.getName());
+
     public Presenter(@NotNull AbstractDatabase database) {
         this.database = Objects.requireNonNull(database, "База данных" +
                 " является налом.");
@@ -31,6 +39,7 @@ public class Presenter {
      */
     public void saveDatabase() throws IOException {
         database.save();
+        logger.info("Сохраняем базу.");
     }
 
     /**
@@ -57,6 +66,7 @@ public class Presenter {
     public boolean addContact(@NotNull Contact contact) {
         Objects.requireNonNull(contact, "Ссылка на добавляемый контакт" +
                 " является налом.");
+        logger.info("Пытаемся добавить контакт " + contact.toString());
         if(database.getByPredicate(
                 contactInContacts -> contactInContacts.equals(contact))
                 .size() > 0) {
@@ -76,6 +86,7 @@ public class Presenter {
     public boolean removeContact(@NotNull Contact contact) {
         Objects.requireNonNull(contact, "Ссылка на удаляемый контакт" +
                 " является налом.");
+        logger.info("Пытаемся удалить контакт " + contact.toString());
         return database.remove(contact);
     }
 }
